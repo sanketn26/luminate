@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: luminate-config
+  namespace: luminate
+data:
+  config.yaml: |
+    server:
+      host: "0.0.0.0"
+      port: 8080
+      read_timeout: "30s"
+      write_timeout: "30s"
+      shutdown_timeout: "10s"
+
+    auth:
+      enabled: true
+      token_expiry: "24h"
+
+    storage:
+      backend: "badger"
+      badger:
+        data_dir: "/var/lib/luminate/data"
+        value_log_max_entries: 1000000
+
+    rate_limits:
+      write_requests_per_second: 100
+      query_requests_per_second: 50
+      metrics_per_second: 10000
+      concurrent_queries: 10
+
+    cardinality_limits:
+      max_dimensions_per_metric: 20
+      max_dimension_key_length: 128
+      max_dimension_value_length: 256
+      max_unique_series_per_metric: 1000000
+      max_metrics_per_tenant: 1000
+
+    query_limits:
+      max_query_timeout: "30s"
+      default_query_timeout: "10s"
+      max_query_time_range: "2160h"  # 90 days
+      max_result_points: 10000
+      max_group_by_cardinality: 1000
+
+    batch_write:
+      max_batch_size: 10000
+      max_request_size_bytes: 10485760
+      compression: true
+
+    retention:
+      default_retention: "720h"  # 30 days
+      cleanup_interval: "1h"
+
+    logging:
+      level: "info"
+      format: "json"
+      output: "stdout"
+
+    metrics:
+      enabled: true
+      path: "/metrics"
+      interval: "10s"

@@ -1,0 +1,110 @@
+# StatefulSet for BadgerDB deployment (not horizontally scalable - single instance)
+# Use this for embedded database scenarios
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: luminate-badger
+  namespace: luminate
+  labels:
+    app: luminate
+    storage: badger
+spec:
+  serviceName: luminate-headless
+  replicas: 1  # BadgerDB = single instance only
+
+  selector:
+    matchLabels:
+      app: luminate
+      storage: badger
+
+  template:
+    metadata:
+      labels:
+        app: luminate
+        storage: badger
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+
+    spec:
+      serviceAccountName: luminate
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+
+      containers:
+      - name: luminate
+        image: docker.io/yourusername/luminate:latest
+        imagePullPolicy: Always
+
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+
+        env:
+        - name: LUMINATE_AUTH_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: luminate-secrets
+              key: jwt-secret
+        - name: LUMINATE_STORAGE_BACKEND
+          value: "badger"
+        - name: LUMINATE_STORAGE_BADGER_DATA_DIR
+          value: "/var/lib/luminate/data"
+
+        volumeMounts:
+        - name: config
+          mountPath: /app/configs
+          readOnly: true
+        - name: data
+          mountPath: /var/lib/luminate
+
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+
+        livenessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        startupProbe:
+          httpGet:
+            path: /api/v1/health
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 5
+          failureThreshold: 30
+
+      volumes:
+      - name: config
+        configMap:
+          name: luminate-config
+
+  # Persistent volume claim for BadgerDB data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: fast-ssd  # Use fast SSD storage class
+      resources:
+        requests:
+          storage: 100Gi
