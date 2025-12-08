@@ -235,4 +235,6 @@ MIT License
 
 ## Documentation
 
-See [CLAUDE.md](CLAUDE.md) for detailed architecture and design decisions.
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Complete architecture, storage backend analysis, and design decisions
+- **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Step-by-step deployment instructions for Kubernetes
+- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Detailed project structure and file organization
