@@ -235,6 +235,14 @@ MIT License
 
 ## Documentation
 
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Complete architecture, storage backend analysis, and design decisions
-- **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Step-by-step deployment instructions for Kubernetes
-- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)** - Detailed project structure and file organization
+📚 **Complete documentation is organized in the [docs/](docs/) directory:**
+
+- **[docs/README.md](docs/README.md)** - Documentation hub and navigation
+- **[docs/guides/quickstart.md](docs/guides/quickstart.md)** - Get started in 5 minutes
+- **[docs/architecture/](docs/architecture/)** - System design and architecture
+- **[docs/workstreams/](docs/workstreams/)** - Detailed implementation guides (11 workstreams)
+- **[docs/operations/](docs/operations/)** - Production deployment and operations
+- **[docs/DOCUMENTATION_INDEX.md](docs/DOCUMENTATION_INDEX.md)** - Complete documentation index
+
+**Project instructions for AI assistants:**
+- **[CLAUDE.md](CLAUDE.md)** - Claude Code project guidance

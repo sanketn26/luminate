@@ -21,9 +21,10 @@ Phase 2: API Layer (Weeks 3-4)      │
 Phase 3: Advanced Storage (Weeks 5-6)
 └── WS6: ClickHouse Backend
 
-Phase 4: Observability (Week 7)
+Phase 4: Observability & UI (Week 7)
 ├── WS7: Internal Metrics
-└── WS8: Health Checks & Discovery
+├── WS8: Health Checks & Discovery
+└── WS11: Dashboard UI (Grafana)
 
 Phase 5: Testing & Deployment (Week 8)
 ├── WS9: Testing Framework
