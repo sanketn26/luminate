@@ -6,7 +6,7 @@ server:
   shutdown_timeout: "10s"
 
 auth:
-  enabled: true
+  enabled: false
   jwt_secret: "${JWT_SECRET}"  # Set via environment variable
   token_expiry: "24h"
 
@@ -15,7 +15,7 @@ storage:
 
   # BadgerDB configuration
   badger:
-    data_dir: "/var/lib/luminate/data"
+    data_dir: "./data"
     value_log_max_entries: 1000000
 
   # ClickHouse configuration
